@@ -54,9 +54,29 @@ class QuestionDaoJdbcTest extends JdbcTest {
     }
 
     @Test
-    @DisplayName("Поиск вопросов по опросу")
+    @DisplayName("Должны возвращаться вопросы опроса")
     public void testFindByForm() {
+        long formId = 1L;
+        insertForm();
+        Question spongeQuestion = insertQuestion("Кто проживает на дне океана", "Песок", "Вода", "Бездна", "Губка");
+        Question theWitcherQuestion = insertQuestion("Кого вы выбрали?", "Трисс", "Йенифэр", "Быть счастливым");
+        Question bubbleGumQuestion = insertQuestion("Сколько стоит жвачка по рублю?", "10 рублей", "5 рублей");
 
+        List<Question> questions = questionDao.findByFormId(formId);
+
+        Assertions.assertEquals(3, questions.size());
+        Assertions.assertEquals(spongeQuestion, questions.get(0));
+        Assertions.assertEquals(theWitcherQuestion, questions.get(1));
+        Assertions.assertEquals(bubbleGumQuestion, questions.get(2));
+    }
+
+    private Question insertQuestion(String text, String... answers) {
+        Long questionId = questionDao.create(1L, text);
+        List<Answer> answerList = Utils.getAnswers(answers);
+        Mockito.doReturn(answerList)
+                .when(answerDao)
+                .findByQuestionId(questionId);
+        return new Question(questionId, text, answerList);
     }
 
 

@@ -64,7 +64,7 @@ public class QuestionDaoJdbc implements QuestionDao {
     @Transactional
     @Override
     public List<Question> findByFormId(Long formId) {
-        return jdbcTemplate.query("select q.id, q\"text\" from question q where q.from_id = :formId",
+        return jdbcTemplate.query("select q.id, q.\"text\" from question q where q.form_id = :formId",
                 new MapSqlParameterSource("formId", formId), mapper)
                 .stream()
                 .map(question -> question.with(answerDao.findByQuestionId(question.id())))
@@ -77,6 +77,7 @@ public class QuestionDaoJdbc implements QuestionDao {
         if (questionIds.isEmpty()) {
             return;
         }
+        answerDao.removeByQuestionIds(questionIds);
         jdbcTemplate.update("delete from question where id in (:ids)",
                 new MapSqlParameterSource("ids", questionIds));
     }
@@ -87,6 +88,7 @@ public class QuestionDaoJdbc implements QuestionDao {
         if (formIds.isEmpty()) {
             return;
         }
+        answerDao.removeByFormIds(formIds);
         jdbcTemplate.update("delete from question where form_id in (:formIds)",
                 new MapSqlParameterSource("fromIds", formIds));
     }

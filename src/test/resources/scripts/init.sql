@@ -13,3 +13,9 @@ create table question (
     form_id int8 not null references form(id),
     "text" text not null
 );
+
+create table answer (
+    id bigserial,
+    question_id int8 not null references question(id),
+    "text" text not null
+);

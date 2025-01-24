@@ -2,8 +2,12 @@ package ru.bear43.dao.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.DataClassRowMapper;
+import org.springframework.jdbc.core.SingleColumnRowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.bear43.dao.AnswerDao;
 import ru.bear43.model.dto.Answer;
 
@@ -21,23 +25,53 @@ public class AnswerDaoJdbc implements AnswerDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Transactional
     @Override
-    public Long create(String text) {
-        return 0L;
+    public Long create(Long questionId, String text) {
+        return jdbcTemplate.queryForObject("insert into answer(question_id, \"text\") values(:questionId, :text)",
+                new MapSqlParameterSource("text", text).addValue("questionId", questionId),
+                SingleColumnRowMapper.newInstance(Long.class));
     }
 
     @Override
     public Optional<Answer> find(Long answerId) {
-        return Optional.empty();
+        return jdbcTemplate.query("select a.id, a.\"text\" from answer a where a.id = :id",
+                new MapSqlParameterSource("id", answerId),
+                DataClassRowMapper.newInstance(Answer.class))
+                .stream()
+                .findFirst();
     }
 
+    @Transactional
     @Override
     public void remove(Long answerId) {
-
+        jdbcTemplate.update("delete from answer where id = :id",
+                new MapSqlParameterSource("id", answerId));
     }
 
     @Override
     public List<Answer> findByQuestionId(Long questionId) {
-        return List.of();
+        return jdbcTemplate.query("select a.id, a.\"text\" from answer a where a.question_id = :questionId",
+                new MapSqlParameterSource("questionId", questionId),
+                DataClassRowMapper.newInstance(Answer.class));
+    }
+
+    @Transactional
+    @Override
+    public void removeByQuestionIds(List<Long> questionIds) {
+        jdbcTemplate.update("delete from answer where question_id in (:questionIds)",
+                new MapSqlParameterSource("questionIds", questionIds));
+    }
+
+    @Transactional
+    @Override
+    public void removeByFormIds(List<Long> formIds) {
+        jdbcTemplate.update("""
+                with cte as (
+                    select q.id from question q
+                    where q.form_id in (:formIds)
+                )
+                delete from answer where question_id in (select id from cte)
+                """, new MapSqlParameterSource("formIds", formIds));
     }
 }
