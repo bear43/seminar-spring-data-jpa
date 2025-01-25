@@ -1,0 +1,48 @@
+package ru.bear43.model.entity;
+
+import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+
+import java.util.Objects;
+
+@Table(name = "user")
+@Entity
+public class UserEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_generator")
+    @SequenceGenerator(name = "user_id_generator", sequenceName = "user_id_sequence", allocationSize = 1)
+    private Long id;
+
+    @Column(name = "nickname", unique = true)
+    private String nickname;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(nickname, that.nickname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nickname);
+    }
+}
