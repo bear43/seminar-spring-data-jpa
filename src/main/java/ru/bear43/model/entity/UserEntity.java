@@ -1,7 +1,6 @@
 package ru.bear43.model.entity;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
 
@@ -10,11 +9,11 @@ import java.util.Objects;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_generator")
-    @SequenceGenerator(name = "user_id_generator", sequenceName = "user_id_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_gen")
+    @SequenceGenerator(name = "user_id_gen", sequenceName = "user_id_seq", allocationSize = 1)
     private Long id;
 
-    @Column(name = "nickname", unique = true)
+    @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
 
     public Long getId() {

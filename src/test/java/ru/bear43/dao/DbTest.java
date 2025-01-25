@@ -1,6 +1,7 @@
 package ru.bear43.dao;
 
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -14,6 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 @ExtendWith(SpringExtension.class)
 @EnableJpaRepositories(basePackages = "ru.bear43.dao.datajpa.repo")
+@EntityScan("ru.bear43.model.entity")
 @Sql("classpath:scripts/init.sql")
 public class DbTest {
     @Container

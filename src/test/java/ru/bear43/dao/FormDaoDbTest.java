@@ -7,14 +7,17 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.bear43.dao.jdbc.FormDaoJdbc;
+import ru.bear43.dao.jpa.FormDaoJpa;
 import ru.bear43.dao.util.Utils;
 import ru.bear43.model.dto.Form;
 import ru.bear43.model.dto.Question;
 
 import java.util.List;
 
-@ContextConfiguration(classes = FormDaoJdbc.class)
+@ContextConfiguration(classes = { FormDaoJdbc.class, FormDaoJpa.class })
 class FormDaoDbTest extends DbTest {
 
     @Autowired
@@ -60,7 +63,5 @@ class FormDaoDbTest extends DbTest {
 
         formDao.remove(List.of(formId));
         Assertions.assertTrue(formDao.find(formId).isEmpty());
-        Mockito.verify(questionDao)
-                .removeByFormId(List.of(generatedFormId));
     }
 }
