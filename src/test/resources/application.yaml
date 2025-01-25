@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: jdbc
+    active: jpa
 
 logging:
   level:
