@@ -1,6 +1,5 @@
-package ru.bear43.dao.jdbc;
+package ru.bear43.dao;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,23 +7,15 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import ru.bear43.dao.FormDao;
-import ru.bear43.dao.JdbcTest;
-import ru.bear43.dao.QuestionDao;
+import ru.bear43.dao.jdbc.FormDaoJdbc;
 import ru.bear43.dao.util.Utils;
-import ru.bear43.model.dto.Answer;
 import ru.bear43.model.dto.Form;
 import ru.bear43.model.dto.Question;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ContextConfiguration(classes = FormDaoJdbc.class)
-class FormDaoJdbcTest extends JdbcTest {
+class FormDaoJdbcTest extends DbTest {
 
     @Autowired
     private FormDao formDao;

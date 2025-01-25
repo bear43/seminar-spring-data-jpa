@@ -1,4 +1,4 @@
-package ru.bear43.dao.jdbc;
+package ru.bear43.dao;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,16 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import ru.bear43.dao.AnswerDao;
-import ru.bear43.dao.JdbcTest;
+import ru.bear43.dao.jdbc.AnswerDaoJdbc;
 import ru.bear43.model.dto.Answer;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ContextConfiguration(classes = AnswerDaoJdbc.class)
-class AnswerDaoJdbcTest extends JdbcTest {
+class AnswerDaoJdbcTest extends DbTest {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
