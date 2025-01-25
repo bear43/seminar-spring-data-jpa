@@ -49,6 +49,14 @@ public class QuestionEntity {
         this.answers = answers;
     }
 
+    public FormEntity getForm() {
+        return form;
+    }
+
+    public void setForm(FormEntity form) {
+        this.form = form;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

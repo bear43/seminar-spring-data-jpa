@@ -11,13 +11,15 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import ru.bear43.dao.jdbc.QuestionDaoJdbc;
+import ru.bear43.dao.jpa.QuestionDaoJpa;
 import ru.bear43.dao.util.Utils;
 import ru.bear43.model.dto.Answer;
 import ru.bear43.model.dto.Question;
 
+import java.util.Collections;
 import java.util.List;
 
-@ContextConfiguration(classes = QuestionDaoJdbc.class)
+@ContextConfiguration(classes = { QuestionDaoJdbc.class, QuestionDaoJpa.class })
 class QuestionDaoDbTest extends DbTest {
 
     @Autowired
@@ -25,9 +27,6 @@ class QuestionDaoDbTest extends DbTest {
 
     @Autowired
     private QuestionDao questionDao;
-
-    @MockitoBean
-    private AnswerDao answerDao;
 
     @BeforeEach
     public void insertForm() {
@@ -39,26 +38,21 @@ class QuestionDaoDbTest extends DbTest {
     public void testCreate() {
         long generatedFormId = 1L, generatedQuestionId = 1L;
         String text = "Слушали ли вы 8 симфонию Чайковского?";
-        List<Answer> answers = Utils.getAnswers("Да, ну, конечно!", "Нет", "Думаешь, я тебя не переиграю? Я тебя не уничтожу!?");
-        Mockito.doReturn(answers)
-                .when(answerDao)
-                .findByQuestionId(generatedQuestionId);
 
         Long questionId = questionDao.create(generatedFormId, text);
         Question question = questionDao.find(questionId).get();
 
         Assertions.assertEquals(generatedQuestionId, question.id());
         Assertions.assertEquals(text, question.text());
-        Assertions.assertEquals(answers, question.answers());
     }
 
     @Test
     @DisplayName("Должны возвращаться вопросы опроса")
     public void testFindByForm() {
         long formId = 1L;
-        Question spongeQuestion = insertQuestion("Кто проживает на дне океана", "Песок", "Вода", "Бездна", "Губка");
-        Question theWitcherQuestion = insertQuestion("Кого вы выбрали?", "Трисс", "Йенифэр", "Быть счастливым");
-        Question bubbleGumQuestion = insertQuestion("Сколько стоит жвачка по рублю?", "10 рублей", "5 рублей");
+        Question spongeQuestion = insertQuestion("Кто проживает на дне океана");
+        Question theWitcherQuestion = insertQuestion("Кого вы выбрали?");
+        Question bubbleGumQuestion = insertQuestion("Сколько стоит жвачка по рублю?");
 
         List<Question> questions = questionDao.findByFormId(formId);
 
@@ -77,16 +71,10 @@ class QuestionDaoDbTest extends DbTest {
         questionDao.remove(List.of(questionId));
 
         Assertions.assertTrue(questionDao.find(questionId).isEmpty());
-        Mockito.verify(answerDao)
-                .removeByQuestionIds(List.of(questionId));
     }
 
-    private Question insertQuestion(String text, String... answers) {
+    private Question insertQuestion(String text) {
         Long questionId = questionDao.create(1L, text);
-        List<Answer> answerList = Utils.getAnswers(answers);
-        Mockito.doReturn(answerList)
-                .when(answerDao)
-                .findByQuestionId(questionId);
-        return new Question(questionId, text, answerList);
+        return new Question(questionId, text, Collections.emptyList());
     }
 }

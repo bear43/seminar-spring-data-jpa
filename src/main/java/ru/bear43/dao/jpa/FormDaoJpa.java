@@ -10,6 +10,7 @@ import ru.bear43.model.dto.Answer;
 import ru.bear43.model.dto.Form;
 import ru.bear43.model.dto.Question;
 import ru.bear43.model.entity.FormEntity;
+import ru.bear43.model.mapper.FormMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,20 +18,6 @@ import java.util.Optional;
 @Profile("jpa")
 @Repository
 public class FormDaoJpa implements FormDao {
-
-    private static class Mapper {
-        private static Form map(FormEntity formEntity) {
-            List<Question> questions = formEntity.getQuestions()
-                    .stream()
-                    .map(question -> new Question(question.getId(), question.getText(),
-                            question.getAnswers()
-                                    .stream()
-                                    .map(answerEntity -> new Answer(answerEntity.getId(), answerEntity.getText()))
-                                    .toList()))
-                    .toList();
-            return new Form(formEntity.getId(), formEntity.getTitle(), questions);
-        }
-    }
 
     private final EntityManager entityManager;
 
@@ -51,7 +38,7 @@ public class FormDaoJpa implements FormDao {
     @Override
     public Optional<Form> find(Long formId) {
         return Optional.ofNullable(entityManager.find(FormEntity.class, formId))
-                .map(Mapper::map);
+                .map(FormMapper::map);
     }
 
     @Transactional

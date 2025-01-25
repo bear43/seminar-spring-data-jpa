@@ -31,14 +31,6 @@ class FormDaoDbTest extends DbTest {
     public void testCreate() {
         long generatedFormId = 1L;
         String title = "Социогастрономический опрос";
-        Question plovQuestion = Utils.getQuestion("Укажите рецепт плова по вашему мнению",
-                "Рис, мясо, чеснок...",
-                "Не знаю, закажу из лавки",
-                "Мама приготовит, я занят(-а), уходите",
-                "25 картошек, 17 ...");
-        Mockito.doReturn(List.of(plovQuestion))
-                .when(questionDao)
-                .findByFormId(generatedFormId);
 
         Long formId = formDao.create(title);
         Form form = formDao.find(formId).get();
@@ -53,11 +45,6 @@ class FormDaoDbTest extends DbTest {
     public void testRemove() {
         long generatedFormId = 1L;
         String title = "Опрос самых успешных людей";
-//        Question songQuestion = getQuestion("Какой трек, по-вашему, лучше всего подойдёт для выхода на защиту диплома",
-//                "Любэ - выйду в поле с конём",
-//                "INSTASAMKA - За деньги да",
-//                "Шуфутинский - Путана",
-//                "Клава Кока и утренняя звезда - Мне пох");
         Long formId = formDao.create(title);
         Assertions.assertEquals(generatedFormId, formId);
 
