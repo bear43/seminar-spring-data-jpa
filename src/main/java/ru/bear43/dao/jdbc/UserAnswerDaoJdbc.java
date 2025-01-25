@@ -1,6 +1,7 @@
 package ru.bear43.dao.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,6 +13,7 @@ import ru.bear43.model.dto.Answer;
 
 import java.util.List;
 
+@Profile("jdbc")
 @Repository
 public class UserAnswerDaoJdbc implements UserAnswerDao {
 

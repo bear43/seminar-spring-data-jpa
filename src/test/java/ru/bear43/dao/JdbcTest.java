@@ -16,7 +16,7 @@ import ru.bear43.dao.jdbc.UserDaoJdbc;
 @DataJpaTest
 @Testcontainers
 @ExtendWith(SpringExtension.class)
-@EnableJpaRepositories(basePackages = "ru.bear43.dao.jpa")
+@EnableJpaRepositories(basePackages = "ru.bear43.dao.datajpa.repo")
 @ActiveProfiles("jdbc")
 @Sql("classpath:scripts/init.sql")
 public class JdbcTest {
