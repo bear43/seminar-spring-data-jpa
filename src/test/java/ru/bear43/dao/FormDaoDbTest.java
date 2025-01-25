@@ -15,7 +15,7 @@ import ru.bear43.model.dto.Question;
 import java.util.List;
 
 @ContextConfiguration(classes = FormDaoJdbc.class)
-class FormDaoJdbcTest extends DbTest {
+class FormDaoDbTest extends DbTest {
 
     @Autowired
     private FormDao formDao;

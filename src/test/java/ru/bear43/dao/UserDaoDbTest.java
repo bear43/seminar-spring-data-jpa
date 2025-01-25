@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import ru.bear43.dao.jdbc.UserDaoJdbc;
 
 @ContextConfiguration(classes = UserDaoJdbc.class)
-class UserDaoJdbcTest extends DbTest {
+class UserDaoDbTest extends DbTest {
 
     @Autowired
     private UserDao userDao;

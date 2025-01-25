@@ -18,7 +18,7 @@ import ru.bear43.model.dto.Question;
 import java.util.List;
 
 @ContextConfiguration(classes = QuestionDaoJdbc.class)
-class QuestionDaoJdbcTest extends DbTest {
+class QuestionDaoDbTest extends DbTest {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;

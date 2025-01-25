@@ -12,7 +12,7 @@ import ru.bear43.dao.jdbc.AnswerDaoJdbc;
 import ru.bear43.model.dto.Answer;
 
 @ContextConfiguration(classes = AnswerDaoJdbc.class)
-class AnswerDaoJdbcTest extends DbTest {
+class AnswerDaoDbTest extends DbTest {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
