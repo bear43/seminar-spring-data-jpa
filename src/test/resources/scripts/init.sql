@@ -9,13 +9,13 @@ create table form (
 );
 
 create table question (
-    id bigserial,
+    id bigserial primary key,
     form_id int8 not null references form(id),
     "text" text not null
 );
 
 create table answer (
-    id bigserial,
+    id bigserial primary key,
     question_id int8 not null references question(id),
     "text" text not null
 );

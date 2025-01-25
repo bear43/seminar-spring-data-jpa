@@ -28,7 +28,7 @@ public class AnswerDaoJdbc implements AnswerDao {
     @Transactional
     @Override
     public Long create(Long questionId, String text) {
-        return jdbcTemplate.queryForObject("insert into answer(question_id, \"text\") values(:questionId, :text)",
+        return jdbcTemplate.queryForObject("insert into answer(question_id, \"text\") values(:questionId, :text) returning id",
                 new MapSqlParameterSource("text", text).addValue("questionId", questionId),
                 SingleColumnRowMapper.newInstance(Long.class));
     }
