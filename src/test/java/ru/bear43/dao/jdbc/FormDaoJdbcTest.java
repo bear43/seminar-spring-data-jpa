@@ -34,7 +34,6 @@ class FormDaoJdbcTest extends JdbcTest {
 
     @Test
     @DisplayName("Успешное создание опроса")
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void testCreate() {
         long generatedFormId = 1L;
         String title = "Социогастрономический опрос";

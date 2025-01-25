@@ -18,7 +18,6 @@ class UserDaoJdbcTest extends JdbcTest {
 
     @Test
     @DisplayName("Успешное создание пользователя")
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void testCreate() {
         Long userId = userDao.create("baron");
 

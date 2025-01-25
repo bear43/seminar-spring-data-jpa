@@ -1,6 +1,7 @@
 package ru.bear43.dao.jdbc;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -34,6 +35,11 @@ class QuestionDaoJdbcTest extends JdbcTest {
     @MockitoBean
     private AnswerDao answerDao;
 
+    @BeforeEach
+    public void insertForm() {
+        jdbcTemplate.update("insert into \"form\"(title) values ('Maestro survey')", EmptySqlParameterSource.INSTANCE);
+    }
+
     @Test
     @DisplayName("Успешное создание вопроса")
     public void testCreate() {
@@ -44,7 +50,6 @@ class QuestionDaoJdbcTest extends JdbcTest {
                 .when(answerDao)
                 .findByQuestionId(generatedQuestionId);
 
-        insertForm();
         Long questionId = questionDao.create(generatedFormId, text);
         Question question = questionDao.find(questionId).get();
 
@@ -57,7 +62,6 @@ class QuestionDaoJdbcTest extends JdbcTest {
     @DisplayName("Должны возвращаться вопросы опроса")
     public void testFindByForm() {
         long formId = 1L;
-        insertForm();
         Question spongeQuestion = insertQuestion("Кто проживает на дне океана", "Песок", "Вода", "Бездна", "Губка");
         Question theWitcherQuestion = insertQuestion("Кого вы выбрали?", "Трисс", "Йенифэр", "Быть счастливым");
         Question bubbleGumQuestion = insertQuestion("Сколько стоит жвачка по рублю?", "10 рублей", "5 рублей");
@@ -70,6 +74,19 @@ class QuestionDaoJdbcTest extends JdbcTest {
         Assertions.assertEquals(bubbleGumQuestion, questions.get(2));
     }
 
+    @Test
+    @DisplayName("Успешное удаление вопроса")
+    public void testRemove() {
+        long formId = 1L;
+
+        Long questionId = questionDao.create(formId, "GTA IV vs GTA V?");
+        questionDao.remove(List.of(questionId));
+
+        Assertions.assertTrue(questionDao.find(questionId).isEmpty());
+        Mockito.verify(answerDao)
+                .removeByQuestionIds(List.of(questionId));
+    }
+
     private Question insertQuestion(String text, String... answers) {
         Long questionId = questionDao.create(1L, text);
         List<Answer> answerList = Utils.getAnswers(answers);
@@ -77,10 +94,5 @@ class QuestionDaoJdbcTest extends JdbcTest {
                 .when(answerDao)
                 .findByQuestionId(questionId);
         return new Question(questionId, text, answerList);
-    }
-
-
-    private void insertForm() {
-        jdbcTemplate.update("insert into \"form\"(title) values ('Maestro survey')", EmptySqlParameterSource.INSTANCE);
     }
 }
