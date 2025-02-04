@@ -1,4 +1,4 @@
-package ru.bear43.dao;
+package ru.bear43.dao.jdbc;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
-import ru.bear43.dao.jdbc.UserAnswerDaoJdbc;
+import ru.bear43.dao.UserAnswerDao;
 import ru.bear43.model.dto.Answer;
 
 import java.util.List;

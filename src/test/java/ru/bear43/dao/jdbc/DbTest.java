@@ -1,4 +1,4 @@
-package ru.bear43.dao;
+package ru.bear43.dao.jdbc;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
