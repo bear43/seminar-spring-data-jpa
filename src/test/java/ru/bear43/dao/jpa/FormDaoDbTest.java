@@ -8,12 +8,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import ru.bear43.dao.FormDao;
 import ru.bear43.dao.QuestionDao;
-import ru.bear43.dao.jdbc.FormDaoJdbc;
 import ru.bear43.model.dto.Form;
 
 import java.util.List;
 
-@ContextConfiguration(classes = { FormDaoJdbc.class, FormDaoJpa.class })
+@ContextConfiguration(classes = { FormDaoJpa.class })
 class FormDaoDbTest extends DbTest {
 
     @Autowired

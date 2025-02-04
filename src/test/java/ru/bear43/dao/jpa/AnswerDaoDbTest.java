@@ -9,10 +9,9 @@ import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import ru.bear43.dao.AnswerDao;
-import ru.bear43.dao.jdbc.AnswerDaoJdbc;
 import ru.bear43.model.dto.Answer;
 
-@ContextConfiguration(classes = { AnswerDaoJdbc.class, AnswerDaoJpa.class })
+@ContextConfiguration(classes = { AnswerDaoJpa.class })
 class AnswerDaoDbTest extends DbTest {
 
     @Autowired
