@@ -50,7 +50,9 @@ public class UserAnswerDaoJpa implements UserAnswerDao {
     @Override
     public void remove(Long userId, Long formId, Long questionId) {
         UserAnswerEntity userAnswerEntity = createUserAnswerEntity(userId, formId, questionId, null);
-        entityManager.remove(userAnswerEntity);
+        UserAnswerEntityPK id = userAnswerEntity.getId();
+        UserAnswerEntity reference = entityManager.getReference(UserAnswerEntity.class, id);
+        entityManager.remove(reference);
     }
 
     private static UserAnswerEntity createUserAnswerEntity(Long userId, Long formId, Long questionId, Long answerId) {
