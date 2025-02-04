@@ -1,19 +1,15 @@
-package ru.bear43.dao;
+package ru.bear43.dao.jpa;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import ru.bear43.dao.QuestionDao;
 import ru.bear43.dao.jdbc.QuestionDaoJdbc;
-import ru.bear43.dao.jpa.QuestionDaoJpa;
-import ru.bear43.dao.util.Utils;
-import ru.bear43.model.dto.Answer;
 import ru.bear43.model.dto.Question;
 
 import java.util.Collections;

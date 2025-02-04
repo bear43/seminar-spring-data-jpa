@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
-@Table(name = "user")
+@Table(name = "\"user\"")
 @Entity
 public class UserEntity {
 

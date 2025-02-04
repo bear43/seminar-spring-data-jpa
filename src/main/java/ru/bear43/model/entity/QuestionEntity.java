@@ -22,7 +22,7 @@ public class QuestionEntity {
     @Column(name = "text", nullable = false)
     private String text;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<AnswerEntity> answers;
 
     public Long getId() {

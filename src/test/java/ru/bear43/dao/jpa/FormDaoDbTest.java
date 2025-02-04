@@ -1,19 +1,15 @@
-package ru.bear43.dao;
+package ru.bear43.dao.jpa;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import ru.bear43.dao.FormDao;
+import ru.bear43.dao.QuestionDao;
 import ru.bear43.dao.jdbc.FormDaoJdbc;
-import ru.bear43.dao.jpa.FormDaoJpa;
-import ru.bear43.dao.util.Utils;
 import ru.bear43.model.dto.Form;
-import ru.bear43.model.dto.Question;
 
 import java.util.List;
 

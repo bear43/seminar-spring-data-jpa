@@ -19,7 +19,7 @@ public class FormEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "form", cascade = CascadeType.ALL)
     private List<QuestionEntity> questions;
 
     public Long getId() {
