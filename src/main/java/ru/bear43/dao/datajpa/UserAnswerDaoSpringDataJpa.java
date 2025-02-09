@@ -1,11 +1,6 @@
 package ru.bear43.dao.datajpa;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.engine.spi.PersistenceContext;
-import org.hibernate.internal.SessionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -47,7 +42,7 @@ public class UserAnswerDaoSpringDataJpa implements UserAnswerDao {
                 .orElseGet(() -> {
                     UserAnswerEntity userAnswer = new UserAnswerEntity();
                     userAnswer.setId(id);
-                    UserEntity userEntity = entityManager.getReference(UserEntity.class, userId);
+                    UserEntity userEntity = entityManager.getReference(UserEntity.class, userId);//Почему бы не использовать new UserEntity().setId(userId)?
                     FormEntity formEntity = entityManager.getReference(FormEntity.class, formId);
                     QuestionEntity questionEntity = entityManager.getReference(QuestionEntity.class, questionId);
                     userAnswer.setUser(userEntity);
