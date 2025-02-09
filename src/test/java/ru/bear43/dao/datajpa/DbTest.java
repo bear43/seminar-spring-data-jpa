@@ -1,4 +1,4 @@
-package ru.bear43.dao.jpa;
+package ru.bear43.dao.datajpa;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -18,7 +18,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @EnableJpaRepositories(basePackages = "ru.bear43.dao.datajpa.repo")
 @EntityScan("ru.bear43.model.entity")
 @Sql("classpath:scripts/init.sql")
-@ActiveProfiles("jpa")
+@ActiveProfiles("spring-data-jpa")
 public class DbTest {
     @Container
     @ServiceConnection

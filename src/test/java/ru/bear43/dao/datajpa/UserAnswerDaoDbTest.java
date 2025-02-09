@@ -1,4 +1,4 @@
-package ru.bear43.dao.jpa;
+package ru.bear43.dao.datajpa;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,7 @@ import ru.bear43.model.dto.Answer;
 
 import java.util.List;
 
-@ContextConfiguration(classes = UserAnswerDaoJpa.class)
+@ContextConfiguration(classes = UserAnswerDaoSpringDataJpa.class)
 class UserAnswerDaoDbTest extends DbTest {
 
     @Autowired

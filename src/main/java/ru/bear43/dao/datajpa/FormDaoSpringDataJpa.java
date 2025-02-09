@@ -1,29 +1,28 @@
-package ru.bear43.dao.jpa;
+package ru.bear43.dao.datajpa;
 
-import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bear43.dao.FormDao;
-import ru.bear43.model.dto.Answer;
+import ru.bear43.dao.datajpa.repo.FormRepo;
 import ru.bear43.model.dto.Form;
-import ru.bear43.model.dto.Question;
 import ru.bear43.model.entity.FormEntity;
 import ru.bear43.model.mapper.FormMapper;
 
 import java.util.List;
 import java.util.Optional;
 
-@Profile("jpa")
+@Profile("spring-data-jpa")
 @Repository
-public class FormDaoJpa implements FormDao {
+public class FormDaoSpringDataJpa implements FormDao {
 
-    private final EntityManager entityManager;
+    private final FormRepo formRepo;
 
     @Autowired
-    public FormDaoJpa(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public FormDaoSpringDataJpa(FormRepo formRepo) {
+        this.formRepo = formRepo;
     }
 
     @Transactional
@@ -31,21 +30,18 @@ public class FormDaoJpa implements FormDao {
     public Long create(String title) {
         FormEntity formEntity = new FormEntity();
         formEntity.setTitle(title);
-        entityManager.persist(formEntity);
-        return formEntity.getId();
+        return formRepo.saveAndFlush(formEntity).getId();
     }
 
     @Override
     public Optional<Form> find(Long formId) {
-        return Optional.ofNullable(entityManager.find(FormEntity.class, formId))
+        return formRepo.findById(formId)
                 .map(FormMapper::map);
     }
 
     @Transactional
     @Override
-    public void remove(List<Long> formIds) {
-        formIds.stream()
-                .map(formId -> entityManager.getReference(FormEntity.class, formId))
-                .forEach(entityManager::remove);
+    public void remove(List<Long> formId) {
+        formRepo.deleteAllById(formId);
     }
 }

@@ -1,4 +1,4 @@
-package ru.bear43.dao.jpa;
+package ru.bear43.dao.datajpa;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import ru.bear43.dao.UserDao;
 
-@ContextConfiguration(classes = {UserDaoJpa.class})
+@ContextConfiguration(classes = {UserDaoSpringDataJpa.class})
 class UserDaoDbTest extends DbTest {
 
     @Autowired

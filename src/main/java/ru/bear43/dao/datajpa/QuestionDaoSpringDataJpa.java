@@ -1,29 +1,29 @@
-package ru.bear43.dao.jpa;
+package ru.bear43.dao.datajpa;
 
-import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bear43.dao.QuestionDao;
+import ru.bear43.dao.datajpa.repo.QuestionRepo;
 import ru.bear43.model.dto.Question;
 import ru.bear43.model.entity.FormEntity;
 import ru.bear43.model.entity.QuestionEntity;
-import ru.bear43.model.mapper.AnswerMapper;
 import ru.bear43.model.mapper.QuestionMapper;
 
 import java.util.List;
 import java.util.Optional;
 
-@Profile("jpa")
-@Repository
-public class QuestionDaoJpa implements QuestionDao {
 
-    private final EntityManager entityManager;
+@Profile("spring-data-jpa")
+@Repository
+public class QuestionDaoSpringDataJpa implements QuestionDao {
+
+    private final QuestionRepo questionRepo;
 
     @Autowired
-    public QuestionDaoJpa(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public QuestionDaoSpringDataJpa(QuestionRepo questionRepo) {
+        this.questionRepo = questionRepo;
     }
 
     @Transactional
@@ -32,24 +32,21 @@ public class QuestionDaoJpa implements QuestionDao {
         QuestionEntity questionEntity = new QuestionEntity();
         FormEntity formEntity = new FormEntity();
         formEntity.setId(formId);
-
         questionEntity.setForm(formEntity);
         questionEntity.setText(text);
-        entityManager.persist(questionEntity);
-        return questionEntity.getId();
+        return questionRepo.saveAndFlush(questionEntity ).getId();
     }
 
     @Override
     public Optional<Question> find(Long questionId) {
-        return Optional.ofNullable(entityManager.find(QuestionEntity.class, questionId))
+        return questionRepo.findById(questionId)
                 .map(QuestionMapper::map);
     }
 
     @Override
     public List<Question> findByFormId(Long formId) {
-        return entityManager.createQuery("select q from QuestionEntity q where q.form.id = :formId", QuestionEntity.class)
-                .setParameter("formId", formId)
-                .getResultStream()
+        return questionRepo.findAllByForm_Id(formId)
+                .stream()
                 .map(QuestionMapper::map)
                 .toList();
     }
@@ -57,16 +54,12 @@ public class QuestionDaoJpa implements QuestionDao {
     @Transactional
     @Override
     public void remove(List<Long> questionIds) {
-        questionIds.stream()
-                .map(questionId -> entityManager.getReference(QuestionEntity.class, questionId))
-                .forEach(entityManager::remove);
+        questionRepo.deleteAllById(questionIds);
     }
 
     @Transactional
     @Override
     public void removeByFormId(List<Long> formIds) {
-        entityManager.createQuery("delete from QuestionEntity where from.id in :formIds")
-                .setParameter("formIds", formIds)
-                .executeUpdate();
+        questionRepo.deleteAllByFormIds(formIds);
     }
 }
