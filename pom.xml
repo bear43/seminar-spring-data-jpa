@@ -9,8 +9,8 @@
         <version>3.4.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>ru.bear43</groupId>
-    <artifactId>questionnarie</artifactId>
+    <groupId>ru.tinkoff.education.backend.academy</groupId>
+    <artifactId>jpa-spring-data</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
